@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<!-- ▼ GASのウェブアプリURL（…/exec）は次の行の content="…" の中だけを書き換える -->
+<meta name="gas-app-url" content="https://script.google.com/macros/s/AKfycbyUd_GNGbJVJmuQbV2cZGA48PReweEA6QUigOVHvNcHyh10kze0sMtj9zjmqYwyr4_nMA/exec">
+<title>研究調査用アンケート｜獨協医科大学小児科学</title>
+<style>
+  html,body{margin:0;height:100%;background:#F3F6FA;font-family:"Hiragino Sans","Yu Gothic",system-ui,sans-serif}
+  #app{border:0;width:100%;height:100%;display:block}
+  #fallback{position:fixed;left:0;right:0;bottom:0;padding:10px 16px;font-size:14px;color:#55636F;text-align:center;background:rgba(243,246,250,.95);display:none}
+  #fallback a{color:#2F6DB0}
+  #wait{position:fixed;inset:0;display:flex;align-items:center;justify-content:center;color:#55636F;font-size:17px;text-align:center;padding:24px;line-height:1.6}
+  #wait.error{color:#C4402F}
+</style>
+</head>
+<body>
+<div id="wait">読み込み中…</div>
+<iframe id="app" src="about:blank" title="研究調査用アンケート" allow="clipboard-write"></iframe>
+<div id="fallback">画面が表示されない場合は <a id="direct" href="#" target="_top">こちら</a> を開いてください。</div>
+<script>
+(function(){
+  var wait = document.getElementById('wait');
+  function fail(msg){ wait.className = 'error'; wait.textContent = msg; }
+  window.onerror = function(m){ fail('ページの設定に誤りがあります（' + m + '）。管理者にご連絡ください。'); };
+  var meta = document.querySelector('meta[name="gas-app-url"]');
+  var base = meta ? meta.getAttribute('content').trim() : '';
+  if (!/^https:\/\/script\.google\.com\/macros\/s\/[A-Za-z0-9_-]+\/exec$/.test(base) || /XXXXXXXX/.test(base)) {
+    fail('ページの設定に誤りがあります（GASのURLが正しく設定されていません）。管理者にご連絡ください。'); return;
+  }
+  var target = base + window.location.search;   // ?test=1 や ?paper=… をそのままGASへ渡す
+  var ifm = document.getElementById('app');
+  ifm.addEventListener('load', function(){ wait.style.display = 'none'; });
+  ifm.src = target;
+  document.getElementById('direct').href = target;
+  setTimeout(function(){ document.getElementById('fallback').style.display = 'block'; }, 8000);
+})();
+</script>
+</body>
+</html>
